@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react'
 
 function App() {
+  const [peopleInSpace, setPeopleInSpace] = useState([])
+  // const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => { 
+    fetch("http://api.open-notify.org/astros.json").then((response) => response.json()).then((data) => {
+      setPeopleInSpace(data.people)
+    })
+  }, [])
+
+  // if (isLoaded) return <h1>Loading...</h1>
+    
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <h1>Data Fecthing</h1>
+      {peopleInSpace.map((person) => person.name)}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
